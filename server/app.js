@@ -3,7 +3,7 @@ const app = express();
 const http = require("http").Server(app);
 const mongoose = require("mongoose");
 const cors = require("cors");
-
+const { username, password } = require("./mongouri.json")
 //routes imports
 const users = require("./routes/users");
 const groups = require("./routes/groups");
@@ -12,7 +12,7 @@ const auth = require("./routes/auth");
 //Connect to mongodb
 mongoose
   .connect(
-    "mongodb+srv://davidn:David597@cluster0.rza4y.mongodb.net/tasko?retryWrites=true&w=majority",
+    `mongodb+srv://${username}:${password}@cluster0.rza4y.mongodb.net/tasko?retryWrites=true&w=majority`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
