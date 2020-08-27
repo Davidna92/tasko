@@ -1,16 +1,13 @@
 import React from "react";
 import FormComponent from "../common/formComponent";
 import {
-  Button,
   Form,
   Grid,
   Header,
-  Image,
-  Message,
   Segment,
 } from "semantic-ui-react";
 import http from '../services/httpService';
-import userService from '../services/userService';
+// import userService from '../services/userService';
 import { myUrl } from '../config.json';
 
 import Joi from "joi-browser";

@@ -1,34 +1,31 @@
 import React from "react";
-import Joi from "joi-browser";
 import FormComponent from "../common/formComponent";
+import Joi from "joi-browser";
 import { Form, Grid, Header, Segment } from "semantic-ui-react";
-import { Redirect } from "react-router-dom";
-// import { NavLink } from "react-router-dom";
-import userService from "../services/userService";
+import boardService from "../services/boardService";
 
-class Login extends FormComponent {
+class JoinBoard extends FormComponent {
   state = {
     data: {
-      email: "",
-      password: "",
+      boardName: "",
+      boardPassword: "",
     },
     errors: {},
   };
 
   schema = {
-    email: Joi.string()
+    boardName: Joi.string()
       .required()
-      .email()
-      .label("Email")
+      .label("Board Name")
       .error(() => {
         return {
-          message: "Email must be a valid",
+          message: "Board name is not valid",
         };
       }),
-    password: Joi.string()
+    boardPassword: Joi.string()
       .required()
       .min(6)
-      .label("Password")
+      .label("Board Password")
       .error(() => {
         return {
           message: "Password must be at least 6 characters",
@@ -37,20 +34,18 @@ class Login extends FormComponent {
   };
 
   doSubmit = async () => {
-    const { email, password } = this.state.data;
-
+    const { boardName, boardPassword } = this.state.data;
     try {
-      await userService.login(email, password);
-      window.location = "/";
+      await boardService.joinBoard(boardName, boardPassword);
+      window.location = "/board";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
-        this.setState({ errors: { email: ex.response.data } });
+        this.setState({ errors: { boardName: ex.response.data } });
       }
     }
   };
 
   render() {
-    if (userService.getThisUser()) return <Redirect to="/" />;
     return (
       <Grid
         textAlign="center"
@@ -59,14 +54,18 @@ class Login extends FormComponent {
       >
         <Grid.Column style={{ maxWidth: 450 }}>
           <Header as="h2" color="teal" textAlign="center">
-            Login to tasko
+            Join to a board
           </Header>
           <Form size="large" onSubmit={this.handleSubmit} autoComplete="off">
             <Segment stacked>
-              {this.renderInput("email", "Email", "email")}
-              {this.renderInput("password", "Password", "password")}
+              {this.renderInput("boardName", "Board Name", "boardName")}
+              {this.renderInput(
+                "boardPassword",
+                "Board Password",
+                "boardPassword"
+              )}
             </Segment>
-            {this.renderButton("Sign In")}
+            {this.renderButton("Join")}
           </Form>
         </Grid.Column>
       </Grid>
@@ -74,4 +73,4 @@ class Login extends FormComponent {
   }
 }
 
-export default Login;
+export default JoinBoard;

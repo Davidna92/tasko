@@ -16,13 +16,13 @@ class Navbar extends Component {
       <Menu size="large">
         <Menu.Item
           name="home"
-          active={activeItem === "home"}
+          // active={activeItem === "home"}
           onClick={this.handleItemClick}
         />
         {user && (
           <Menu
             name="group"
-            active={activeItem === "group"}
+            // active={activeItem === "group"}
             onClick={this.handleItemClick}
           />
         )}
@@ -43,8 +43,13 @@ class Navbar extends Component {
         {user && (
           <Menu.Menu position="right">
             <Menu.Item>
+              <NavLink to="/join">
+                <Button primary>Join Board</Button>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item>
               <NavLink to="/logout">
-                <Button primary>Log out</Button>
+                <Button secondary>Log out</Button>
               </NavLink>
             </Menu.Item>
           </Menu.Menu>

@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     maxlength: 255,
   },
   createdAt: { type: Date, default: Date.now },
-  groups: Array,
+  boards: Array,
 });
 
 userSchema.methods.generateAuthToken = function () {
