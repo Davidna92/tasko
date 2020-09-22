@@ -8,16 +8,23 @@ const boardAuth = require("../middleware/boardAuth");
 
 const router = express.Router();
 
+router.get("/:id", auth, boardAuth, async (req, res) => {
+  const list = await List.findOne({ _id: req.params.id });
+  if (!list) {
+    res.status(404).send("List not found");
+  } else {
+    res.send(list);
+  }
+});
+
 router.post("/add-list", auth, boardAuth, async (req, res) => {
   const id = req.board._id;
-  console.log(id);
   const board = await Board.findOne({ _id: id });
-  console.log(board);
   if (!board) return res.status(404).send("No such board");
 
   let list = new List({
-    listTitle: req.body.listTitle,
-    listTasks: req.listTasks,
+    title: req.body.title,
+    cards: req.cards,
   });
   board.boardLists.push(list);
   await list.save();
@@ -27,19 +34,34 @@ router.post("/add-list", auth, boardAuth, async (req, res) => {
 
 router.post("/add-task/:id", auth, boardAuth, async (req, res) => {
   const listId = req.params.id;
-  const board = await Board.findOne({ _id: req.board._id });
 
-  const list = await List.findOne({ _id: listId });
-  if (!list) return res.status(404).send("List not found");
+  try {
+    const board = await Board.findOne({ _id: req.board._id });
+    if (!board) return res.status(404).send("no such board");
 
-  const task = new Task({
-    text: req.body.text,
-  });
-  list.listTasks.push(task);
-  // await task.save();
-  await list.save();
-  await board.save();
-  res.send(task)
+    const list = await List.findOne({ _id: listId });
+    if (!list) return res.status(404).send("List not found");
+
+    const task = new Task({
+      text: req.body.text,
+    });
+
+    board.boardLists = board.boardLists.map((list) => {
+      if (listId.toString() === list._id.toString()) {
+        return {
+          ...list,
+          cards: list.cards.concat(task),
+        };
+      } else {
+        return list;
+      }
+    });
+
+    await board.save();
+    res.send(board);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 module.exports = router;

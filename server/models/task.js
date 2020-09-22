@@ -7,10 +7,9 @@ const taskSchema = new mongoose.Schema({
     maxLength: 1024,
     minLength: 2,
   },
- taskOf: { type: mongoose.Schema.Types.ObjectId, ref: "List" },
 });
 
-const Task = mongoose.model("Task", taskSchema);
+const Task = mongoose.model("tasks", taskSchema);
 
 
 exports.Task = Task;

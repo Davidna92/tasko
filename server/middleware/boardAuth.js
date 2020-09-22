@@ -2,8 +2,8 @@ const jwt = require("jsonwebtoken");
 const config = require('config');
 
 module.exports = (req, res, next) => {
-  const token = req.header("board-token");
-  if (!token) return res.status(401).send("Missing token. Access denied");
+  const token = req.header("boardToken");
+  if (!token) return res.status(401).send("Missing board token. Access denied");
 
   try {
     const decoded = jwt.verify(token, config.get("jwtKey"));

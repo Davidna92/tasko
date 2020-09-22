@@ -7,8 +7,13 @@ const boardAuth = require("../middleware/boardAuth");
 
 const router = express.Router();
 
-router.post('/:id/add-task', auth, boardAuth, async (req, res) => {
-  const listId = req.params.id
-})
+router.get("/:id", auth, boardAuth, async (req, res) => {
+  const card = await Task.findOne({ id: req.params.id });
+  if (!card) {
+    res.status(404).send("Card not found");
+  } else {
+    res.send(card);
+  }
+});
 
 module.exports = router;

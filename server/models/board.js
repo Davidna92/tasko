@@ -19,15 +19,17 @@ const boardSchema = new mongoose.Schema({
   g_createdAt: { type: Date, default: Date.now },
   boardCreator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   boardMembers: Array,
-  boardLists: [{ type: mongoose.Schema.Types.ObjectId, ref: "List" }],
+  boardLists: Array,
 });
+
+// { type: mongoose.Schema.Types.ObjectId, ref: "lists" }
 
 boardSchema.methods.generateAuthToken = function () {
   const token = jwt.sign({ _id: this._id }, config.get("jwtKey"));
   return token;
 };
 
-const Board = mongoose.model("Board", boardSchema);
+const Board = mongoose.model("boards", boardSchema);
 
 function validateBoard(board) {
   const schema = Joi.object({

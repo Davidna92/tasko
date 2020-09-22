@@ -63,7 +63,7 @@ class Signup extends FormComponent {
     };
 
   render() {
-    const { errors } = this.state;
+    // const { errors } = this.state;
     return (
       <Grid
         textAlign="center"

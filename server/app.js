@@ -39,7 +39,7 @@ app.use("/tasko/users", users);
 app.use("/tasko/auth", auth);
 app.use("/tasko/boards", boards);
 app.use("/tasko/lists", lists);
-app.use("/tasko/tasks", tasks);
+app.use("/tasko/cards", tasks);
 
 //port and listening
 const port = 8181;

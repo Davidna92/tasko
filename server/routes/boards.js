@@ -1,8 +1,8 @@
 const express = require("express");
 const { Board, validateBoard } = require("../models/board");
 const { User } = require("../models/user");
-const { List } = require("../models/list");
-const { Task } = require("../models/task");
+// const { List } = require("../models/list");
+// const { Task } = require("../models/task");
 const auth = require("../middleware/auth");
 const boardAuth = require("../middleware/boardAuth");
 
@@ -43,7 +43,7 @@ router.put("/", auth, async (req, res) => {
   }
 })
 
-////////GET Board
+////////GET Board 
 router.get("/one", auth, boardAuth, async (req, res) => {
   const board = await Board.findOne({ _id: req.board._id });
   if (!board) {

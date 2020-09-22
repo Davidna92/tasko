@@ -3,29 +3,18 @@ import { Button, Menu } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 
 class Navbar extends Component {
-  state = {
-    activeItem: "home",
-  };
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  async componentDidMount() {
+    if (this.props.board) {
+      window.location = "/board";
+    }
+  }
 
   render() {
-    const { activeItem } = this.state;
-    const { user } = this.props;
+    const { user, board } = this.props;
     return (
       <Menu size="large">
-        <Menu.Item
-          name="home"
-          // active={activeItem === "home"}
-          onClick={this.handleItemClick}
-        />
-        {user && (
-          <Menu
-            name="group"
-            // active={activeItem === "group"}
-            onClick={this.handleItemClick}
-          />
-        )}
+        <Menu.Item name="home" />
+        {user && <Menu name="group" />}
         {!user && (
           <Menu.Menu position="right">
             <Menu.Item>
@@ -42,11 +31,20 @@ class Navbar extends Component {
         )}
         {user && (
           <Menu.Menu position="right">
-            <Menu.Item>
-              <NavLink to="/join">
-                <Button primary>Join Board</Button>
-              </NavLink>
-            </Menu.Item>
+            {!board && (
+              <Menu.Item>
+                <NavLink to="/join">
+                  <Button primary>Join Board</Button>
+                </NavLink>
+              </Menu.Item>
+            )}
+            {board && (
+              <Menu.Item>
+                <NavLink to="/leave">
+                  <Button primary>Leave Board</Button>
+                </NavLink>
+              </Menu.Item>
+            )}
             <Menu.Item>
               <NavLink to="/logout">
                 <Button secondary>Log out</Button>
